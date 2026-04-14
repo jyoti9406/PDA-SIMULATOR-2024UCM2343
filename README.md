@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# PDA Simulator — TAFL Educational Tool
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> An interactive, fully client-side **Pushdown Automata Simulator** built for BTech Theory of Automata and Formal Languages (TAFL) courses.
 
-## Available Scripts
+[![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://reactjs.org/)
+[![D3.js](https://img.shields.io/badge/D3.js-v7-orange?logo=d3.js)](https://d3js.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🧠 Simulation Engine
+- **DPDA Mode** — Strict determinism validation; detects ε + input conflicts
+- **NPDA Mode** — BFS-based parallel branch exploration (up to 100 branches, 10,000 steps)
+- **Epsilon Loop Detection** — Tracks visited `(state, input, stack)` triplets per branch
+- **Acceptance Criteria** — By Final State or By Empty Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🖥️ Three-Panel UI
 
-### `npm test`
+| Panel | Features |
+|---|---|
+| **Left — PDA Builder** | State manager, Σ / Γ / Z₀ alphabet editor, interactive transition table with ND/duplicate highlighting, input string validation, DPDA/NPDA toggle, preset loader |
+| **Center — State Graph** | D3.js interactive graph: draggable nodes, curved bidirectional edges, self-loops, zoom/pan, auto-layout, active/accept/dead state animations, edge flash on transition |
+| **Right — Stack Visualizer** | Animated push (green slide-in) / pop (red fade-out), Z₀ double-border, NPDA multi-branch columns, live current ID display |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 📋 Trace Table
+- Step-by-step computation history with clickable rows
+- Formal ID chain: `(q₀, w, Z) ⊢ ... ⊢ (qₙ, ε, Z)`
+- Accept / Reject verdict banner with specific rejection reason
 
-### `npm run build`
+### 📦 Presets Included
+1. **aⁿbⁿ** (DPDA) — classic pushdown language
+2. **Balanced Parentheses** (DPDA)
+3. **Even Palindromes** (NPDA) — nondeterministic midpoint guess
+4. **CFG→PDA via S→aSb|ε** (NPDA) — top-down parsing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🔧 Utilities
+- Export PDA definition as **JSON**
+- Import PDA from JSON
+- Export simulation trace as **CSV**
+- **Theory Panel** — live-updating formal 7-tuple definition with move relation notation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting Started
 
-### `npm run eject`
+```bash
+# Clone the repository
+git clone https://github.com/jyoti9406/PDA-SIMULATOR-2024UCM2343.git
+cd PDA-SIMULATOR-2024UCM2343
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Install dependencies
+npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Start development server
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The app will open at **http://localhost:3000**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── App.js                        # Main layout
+├── App.css                       # Premium academic stylesheet
+├── index.js                      # React entry point
+├── engine/
+│   ├── pdaEngine.js              # DPDA + NPDA simulation engine
+│   ├── validator.js              # PDA definition validation
+│   └── presets.js                # Hardcoded preset examples
+├── context/
+│   └── PDAContext.js             # Global state (Context + useReducer)
+├── components/
+│   ├── LeftPanel/                # StateManager, AlphabetEditor, TransitionTable, etc.
+│   ├── CenterPanel/StateGraph.js # D3.js graph (smooth drag, edge-in-place update)
+│   ├── RightPanel/StackVisualizer.js
+│   ├── BottomPanel/TraceTable.js
+│   ├── TheoryPanel/TheoryPanel.js
+│   └── NotificationBar.js
+└── utils/
+    └── exportUtils.js            # JSON + CSV export/import
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **React 18** — UI framework
+- **D3.js v7** — SVG graph rendering and drag interactions
+- **Pure CSS** — No external UI framework; custom animations
+- **React Context + useReducer** — Global state management
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Academic Context
 
-### Making a Progressive Web App
+This project was built for a **BTech TAFL (Theory of Automata and Formal Languages)** course (Roll No: 2024UCM2343). It demonstrates formal PDA definitions, the move relation `⊢`, and supports both acceptance conditions as per standard automata theory textbooks.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Built with ❤️ for the love of formal languages.*
